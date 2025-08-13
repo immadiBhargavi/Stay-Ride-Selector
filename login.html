@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auth Page</title>
+<style>
+    body {
+        background-image: url("https://wallpapercave.com/wp/wp3598832.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        background: rgba(255, 255, 255, 0.85);
+        padding: 25px;
+        border-radius: 10px;
+        width: 320px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    h2 {
+        text-align: center;
+    }
+    input, button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    button {
+        background: #2575fc;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #1a5edc;
+    }
+    .links {
+        text-align: center;
+        margin-top: 10px;
+    }
+    .links a {
+        cursor: pointer;
+        color: #2575fc;
+        text-decoration: none;
+    }
+    .message {
+        text-align: center;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    .success { color: green; }
+    .error { color: red; }
+</style>
+</head>
+<body>
+
+<div class="container" id="loginForm">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <div class="message" id="loginMsg"></div>
+    <div class="links">
+        <a onclick="switchForm('signupForm')">Sign Up</a> | 
+        <a onclick="switchForm('resetForm')">Forgot Password?</a>
+    </div>
+</div>
+
+<div class="container" id="signupForm" style="display:none;">
+    <h2>Sign Up</h2>
+    <input type="text" id="signupName" placeholder="Full Name">
+    <input type="email" id="signupEmail" placeholder="Email">
+    <input type="password" id="signupPassword" placeholder="Password">
+    <button onclick="signup()">Sign Up</button>
+    <div class="message" id="signupMsg"></div>
+    <div class="links">
+        <a onclick="switchForm('loginForm')">Already have an account?</a>
+    </div>
+</div>
+
+<div class="container" id="resetForm" style="display:none;">
+    <h2>Reset Password</h2>
+    <input type="email" placeholder="Enter your Email">
+    <button>Send Reset Link</button>
+    <div class="links">
+        <a onclick="switchForm('loginForm')">Back to Login</a>
+    </div>
+</div>
+
+<script>
+let savedEmail = "";
+let savedPassword = "";
+
+function switchForm(formId) {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('signupForm').style.display = 'none';
+    document.getElementById('resetForm').style.display = 'none';
+    document.getElementById(formId).style.display = 'block';
+
+    // Clear messages when switching
+    document.querySelectorAll('.message').forEach(msg => msg.textContent = "");
+}
+
+function signup() {
+    let name = document.getElementById("signupName").value.trim();
+    let email = document.getElementById("signupEmail").value.trim();
+    let password = document.getElementById("signupPassword").value.trim();
+    let msg = document.getElementById("signupMsg");
+
+    if (name && email && password) {
+        savedEmail = email;
+        savedPassword = password;
+        msg.textContent = "Sign up successful!";
+        msg.className = "message success";
+    } else {
+        msg.textContent = "Invalid user!";
+        msg.className = "message error";
+    }
+}
+
+function login() {
+    let email = document.getElementById("loginEmail").value.trim();
+    let password = document.getElementById("loginPassword").value.trim();
+    let msg = document.getElementById("loginMsg");
+
+    if (email === savedEmail && password === savedPassword) {
+        msg.textContent = "Login successful!";
+        msg.className = "message success";
+    } else {
+        msg.textContent = "Invalid user!";
+        msg.className = "message error";
+    }
+}
+</script>
+
+</body>
+</html>
